@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    { "source": "/api/auth/register", "destination": "/api/auth-register" },
+    { "source": "/api/auth/login", "destination": "/api/auth-login" },
+    { "source": "/api/auth/me", "destination": "/api/auth-me" },
+    { "source": "/api/notes/:id/favorite", "destination": "/api/notes-favorite?id=:id" },
+    { "source": "/api/notes/:id/lock", "destination": "/api/notes-lock?id=:id" },
+    { "source": "/api/notes/:id", "destination": "/api/notes-id?id=:id" },
+    { "source": "/api/notes", "destination": "/api/notes" },
+    { "source": "/api/folders/:id", "destination": "/api/folders-id?id=:id" },
+    { "source": "/api/folders", "destination": "/api/folders" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
