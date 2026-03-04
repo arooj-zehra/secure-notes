@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { connectDB, Note } = require('./_db');
+const { connectDB, Folder } = require('./_db.cjs');
 
 const getUser = (req) => {
   const token = req.headers.authorization?.replace('Bearer ', '');
@@ -11,7 +11,7 @@ const getUser = (req) => {
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'PATCH, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
@@ -20,8 +20,20 @@ module.exports = async (req, res) => {
   if (!user) return res.status(401).json({ message: 'Unauthorized' });
 
   const { id } = req.query;
-  const note = await Note.findOne({ _id: id, userId: user.id });
-  note.isFavorite = !note.isFavorite;
-  await note.save();
-  res.json(note);
+
+  if (req.method === 'PUT') {
+    const folder = await Folder.findOneAndUpdate(
+      { _id: id, userId: user.id },
+      req.body,
+      { new: true }
+    );
+    return res.json(folder);
+  }
+
+  if (req.method === 'DELETE') {
+    await Folder.findOneAndDelete({ _id: id, userId: user.id });
+    return res.json({ message: 'Folder deleted' });
+  }
+
+  res.status(405).end();
 };

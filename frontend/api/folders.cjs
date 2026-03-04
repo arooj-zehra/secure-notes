@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { connectDB, Note } = require('./_db');
+const { connectDB, Folder } = require('./_db.cjs');
 
 const getUser = (req) => {
   const token = req.headers.authorization?.replace('Bearer ', '');
@@ -11,7 +11,7 @@ const getUser = (req) => {
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'PATCH, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
@@ -19,9 +19,17 @@ module.exports = async (req, res) => {
   const user = getUser(req);
   if (!user) return res.status(401).json({ message: 'Unauthorized' });
 
-  const { id } = req.query;
-  const note = await Note.findOne({ _id: id, userId: user.id });
-  note.isLocked = !note.isLocked;
-  await note.save();
-  res.json(note);
+  if (req.method === 'GET') {
+    const folders = await Folder.find({ userId: user.id });
+    return res.json(folders);
+  }
+
+  if (req.method === 'POST') {
+    const { name, color } = req.body;
+    const folder = new Folder({ userId: user.id, name, color });
+    await folder.save();
+    return res.status(201).json(folder);
+  }
+
+  res.status(405).end();
 };

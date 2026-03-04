@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { connectDB, Folder } = require('./_db');
+const { connectDB, Note } = require('./_db.cjs');
 
 const getUser = (req) => {
   const token = req.headers.authorization?.replace('Bearer ', '');
@@ -20,15 +20,15 @@ module.exports = async (req, res) => {
   if (!user) return res.status(401).json({ message: 'Unauthorized' });
 
   if (req.method === 'GET') {
-    const folders = await Folder.find({ userId: user.id });
-    return res.json(folders);
+    const notes = await Note.find({ userId: user.id, deleted: false });
+    return res.json(notes);
   }
 
   if (req.method === 'POST') {
-    const { name, color } = req.body;
-    const folder = new Folder({ userId: user.id, name, color });
-    await folder.save();
-    return res.status(201).json(folder);
+    const { title, content, folderId } = req.body;
+    const note = new Note({ userId: user.id, title, content, folderId });
+    await note.save();
+    return res.status(201).json(note);
   }
 
   res.status(405).end();
