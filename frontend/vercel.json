@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "api/*.cjs": {
-      "runtime": "nodejs20.x"
-    }
-  },
   "rewrites": [
     { "source": "/api/auth/register", "destination": "/api/auth-register.cjs" },
     { "source": "/api/auth/login", "destination": "/api/auth-login.cjs" },
