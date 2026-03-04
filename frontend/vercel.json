@@ -1,14 +1,14 @@
 {
   "rewrites": [
-    { "source": "/api/auth/register", "destination": "/api/auth-register.cjs" },
-    { "source": "/api/auth/login", "destination": "/api/auth-login.cjs" },
-    { "source": "/api/auth/me", "destination": "/api/auth-me.cjs" },
-    { "source": "/api/notes/:id/favorite", "destination": "/api/notes-favorite.cjs?id=:id" },
-    { "source": "/api/notes/:id/lock", "destination": "/api/notes-lock.cjs?id=:id" },
-    { "source": "/api/notes/:id", "destination": "/api/notes-id.cjs?id=:id" },
-    { "source": "/api/notes", "destination": "/api/notes.cjs" },
-    { "source": "/api/folders/:id", "destination": "/api/folders-id.cjs?id=:id" },
-    { "source": "/api/folders", "destination": "/api/folders.cjs" },
+    { "source": "/api/auth/register", "destination": "/api/auth-register" },
+    { "source": "/api/auth/login", "destination": "/api/auth-login" },
+    { "source": "/api/auth/me", "destination": "/api/auth-me" },
+    { "source": "/api/notes/:id/favorite", "destination": "/api/notes-favorite?id=:id" },
+    { "source": "/api/notes/:id/lock", "destination": "/api/notes-lock?id=:id" },
+    { "source": "/api/notes/:id", "destination": "/api/notes-id?id=:id" },
+    { "source": "/api/notes", "destination": "/api/notes" },
+    { "source": "/api/folders/:id", "destination": "/api/folders-id?id=:id" },
+    { "source": "/api/folders", "destination": "/api/folders" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

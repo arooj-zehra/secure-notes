@@ -1,8 +1,8 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { connectDB, User } = require('./_db.cjs');
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { connectDB, User } from './_db.js';
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -23,6 +23,6 @@ module.exports = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
     res.status(201).json({ token, user: { id: user._id, name: user.name, email: user.email } });
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: error.message });
   }
-};
+}

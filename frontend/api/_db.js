@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
-const dns = require('dns');
+import mongoose from 'mongoose';
+import dns from 'dns';
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 let isConnected = false;
 
-async function connectDB() {
+export async function connectDB() {
   if (isConnected) return;
   await mongoose.connect(process.env.MONGO_URI, { family: 4 });
   isConnected = true;
@@ -32,8 +32,6 @@ const noteSchema = new mongoose.Schema({
   deleted: { type: Boolean, default: false }
 }, { timestamps: true });
 
-const User = mongoose.models.User || mongoose.model('User', userSchema);
-const Folder = mongoose.models.Folder || mongoose.model('Folder', folderSchema);
-const Note = mongoose.models.Note || mongoose.model('Note', noteSchema);
-
-module.exports = { connectDB, User, Folder, Note };
+export const User = mongoose.models.User || mongoose.model('User', userSchema);
+export const Folder = mongoose.models.Folder || mongoose.model('Folder', folderSchema);
+export const Note = mongoose.models.Note || mongoose.model('Note', noteSchema);
